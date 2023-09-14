@@ -1,23 +1,10 @@
-import { Request, Response, Router } from "express";
-import multer from "multer";
+import { Router } from "express";
+import { userRoutes } from "./userRoutes";
+import { filesRoutes } from "./filesRoutes"
 
-const path = require('path');
+const AppRoutes = Router()
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'tmp/archives/');
-  },
-  filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname);
-    cb(null, Date.now() + ext);
-  },
-});
+AppRoutes.use(userRoutes)
+AppRoutes.use(filesRoutes)
 
-const routes = Router()
-
-routes.post("/file", multer({storage}).single("file"), 
-    (request: Request, response: Response) => {
-    console.log(request.file);
-})
-
-export { routes }
+export { AppRoutes }

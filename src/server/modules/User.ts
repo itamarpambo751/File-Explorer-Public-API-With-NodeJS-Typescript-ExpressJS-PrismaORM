@@ -13,21 +13,23 @@ import { Entity } from "../../app/base/entity.base";
   allSent             UploadedFiles[] @relation("sender")
   allReceived         UploadedFiles[] @relation("receiver")
  */
-type UserEntityProperties = {
-    email: string
+export type UserEntityProperties = {
     password: string
-    role_id: string
+    email: string
     avatar?: string
+    role_id: string
 }
-
 export class User extends Entity {
     password: string
     email: string
     avatar: string
     role_id: string
 
-    constructor (properties: UserEntityProperties) {
+    constructor ({avatar, ...properties}: UserEntityProperties) {
         super()
-        Object.assign(this, properties)
+        this.password = properties.password
+        this.email = properties.email
+        this.avatar = avatar ? avatar:''
+        this.role_id = properties.role_id
     }
 }
