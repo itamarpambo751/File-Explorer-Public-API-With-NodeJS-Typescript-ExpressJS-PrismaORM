@@ -1,0 +1,66 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+
+model  Role {
+  id                  String @id @default(uuid())
+  name                String @unique
+  users               User[]
+}
+
+model User {
+  id                  String @id @default(uuid())
+  avatar              String
+  email               String @unique
+  password            String
+  
+  role_id             String
+
+  role                Role @relation(fields: [role_id], references: [id])
+  archives            Archive[]
+
+  allSent             UploadedFiles[] @relation("sender")
+  allReceived         UploadedFiles[] @relation("receiver")
+}
+
+model Archive {
+  id                  String @id @default(uuid())
+  fieldname           String
+  originalname        String
+  encoding            String
+  mimetype            String
+  destination         String
+  filename            String
+  path                String
+  size                Int
+  reason_id           String
+  user_id             String
+
+  user                User @relation(fields: [user_id], references: [id])
+  reason              Reason @relation(fields: [reason_id], references: [id])   
+}
+
+model Reason {
+  id                  String @id @default(uuid())
+  name                String
+  archive             Archive[]
+}
+
+model UploadedFiles {
+  id                  String @id @default(uuid())
+  sender_id           String
+  receiver_id         String
+  file_id             String
+
+  sender              User @relation("sender", fields: [sender_id], references: [id])
+  receiver            User @relation("receiver", fields: [receiver_id], references: [id])
+}
