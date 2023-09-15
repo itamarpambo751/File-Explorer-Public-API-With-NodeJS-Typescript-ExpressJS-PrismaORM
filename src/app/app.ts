@@ -4,16 +4,16 @@ import { AppRoutes } from "./routes"
 
 const app = express()
 
-app.use(AppRoutes)
+app.use(express.json())
 
 app.use((request: Request, response: Response, nextFunction: NextFunction) => {
     app.use(cors({
         origin: "*"
     }))
-
+    
     nextFunction()
 })
 
-app.use(express.json())
+app.use(AppRoutes)
 
 export { app }

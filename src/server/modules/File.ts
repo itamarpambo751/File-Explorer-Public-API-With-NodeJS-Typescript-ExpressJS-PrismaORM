@@ -31,6 +31,15 @@ export class File extends Entity {
 
     constructor (properties: File) {
         super()
-        Object.assign(this, properties)
+        this.fieldname = properties.fieldname
+        this.originalname = properties.originalname
+        this.encoding = properties.encoding
+        this.mimetype = properties.mimetype
+        this.destination = properties.destination
+        this.filename = properties.filename
+        this.path = properties.path
+        this.size = properties.size
+        this.reason_id = properties.reason_id
+        this.user_id = properties.user_id
     }
 }
