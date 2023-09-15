@@ -45,6 +45,8 @@ model Archive {
   reason_id           String
   user_id             String
 
+  state               String
+
   uploadedAt          DateTime @default(now())
 
   user                User @relation(fields: [user_id], references: [id])

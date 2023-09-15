@@ -16,6 +16,13 @@ implements FilesGatewayInterface {
             }
         })
     }
+    async getByUserId(id: string): Promise<File[]> {
+        return await prismaClient.archive.findMany({
+            where: {
+                user_id: id
+            }
+        })
+    }
     async getAll(...args: any[]): Promise<File[]> {
         return await prismaClient.archive.findMany()    
     }

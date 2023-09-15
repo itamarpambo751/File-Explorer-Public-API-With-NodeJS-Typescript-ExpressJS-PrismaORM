@@ -17,6 +17,19 @@ import { Entity } from "../../app/base/entity.base";
   user                User @relation(fields: [user_id], references: [id])
   reason              Reason @relation(fields: [reason_id], references: [id])  
  */
+export interface FileProps {
+    fieldname: string
+    originalname: string
+    encoding: string
+    mimetype: string
+    destination: string
+    filename: string
+    path: string
+    size: number
+    reason_id: string
+    user_id: string
+    state?: "ON_HOLD" | "VIEWED" | "PAID_OUT" | "READ"
+}
 export class File extends Entity {
     fieldname: string
     originalname: string
@@ -28,8 +41,9 @@ export class File extends Entity {
     size: number
     reason_id: string
     user_id: string
+    state: string
 
-    constructor (properties: File) {
+    constructor (properties: FileProps) {
         super()
         this.fieldname = properties.fieldname
         this.originalname = properties.originalname
@@ -41,5 +55,6 @@ export class File extends Entity {
         this.size = properties.size
         this.reason_id = properties.reason_id
         this.user_id = properties.user_id
+        this.state = properties.state ? properties.state : "ON_HOLD"
     }
 }

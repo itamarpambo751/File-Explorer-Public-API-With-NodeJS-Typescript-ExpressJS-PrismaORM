@@ -1,14 +1,3 @@
-/*
-  Warnings:
-
-  - You are about to drop the `Archives` table. If the table is not empty, all the data it contains will be lost.
-
-*/
--- DropTable
-PRAGMA foreign_keys=off;
-DROP TABLE "Archives";
-PRAGMA foreign_keys=on;
-
 -- CreateTable
 CREATE TABLE "Role" (
     "id" TEXT NOT NULL PRIMARY KEY,
@@ -38,6 +27,8 @@ CREATE TABLE "Archive" (
     "size" INTEGER NOT NULL,
     "reason_id" TEXT NOT NULL,
     "user_id" TEXT NOT NULL,
+    "state" TEXT NOT NULL,
+    "uploadedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT "Archive_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
     CONSTRAINT "Archive_reason_id_fkey" FOREIGN KEY ("reason_id") REFERENCES "Reason" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
