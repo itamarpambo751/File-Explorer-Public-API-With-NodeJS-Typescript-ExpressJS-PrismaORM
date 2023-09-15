@@ -8,6 +8,7 @@ export class CreateUserController
 implements Controller {
     constructor (private readonly createUserUseCase: CreateUserUseCase) {}
     async handle(request: Request, response: Response): Promise<Response> {
+        
         const perform = await this.createUserUseCase.perform(request.body)
 
         if (perform instanceof AppError) 

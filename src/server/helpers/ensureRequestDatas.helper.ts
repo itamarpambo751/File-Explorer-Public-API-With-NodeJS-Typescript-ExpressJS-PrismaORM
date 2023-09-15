@@ -1,7 +1,9 @@
 import { StatusCodes } from "http-status-codes"
-import * as yup from "yup"
 import { Middleware } from "../../app/base/middleware.base"
 import { AppError } from "../typeErrors/AppError"
+import { NextFunction, Request, Response, request } from "express"
+
+import * as yup from "yup"
 
 type FieldTypes = 'body' | 'headers' | 'params' | 'query'
 
@@ -12,15 +14,17 @@ type AllSchemas = Record<FieldTypes, yup.Schema<any>>
 type GetAllSchemas = (schema: GetSchema) => Partial<AllSchemas>
 
 export const validateSchema: Middleware<GetAllSchemas> = (get) => {
-    return (request, response, next) => {
+    return (request: Request, response: Response, next: NextFunction) => {
         const reportedErrors: Record<string, Record<string, string>> = {}
 
         if (get !== undefined) {
             const schemas = get(schema => schema)
     
-            Object.entries(schemas).forEach(([key, schema]) => { try {
-                schema.validateSync(request[key as FieldTypes], { abortEarly: false })
+            Object.entries(schemas).forEach(([key, schema]) => { 
+                try {
+                    schema.validateSync(request[key as FieldTypes], { abortEarly: false })
                 } catch (err: any) {
+
                     const yupErrors = err as yup.ValidationError
                     const currentFieldErrors: Record<string, string> = {}
     

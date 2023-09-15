@@ -25,11 +25,11 @@ export class User extends Entity {
     avatar: string
     role_id: string
 
-    constructor ({avatar, ...properties}: UserEntityProperties) {
+    constructor (properties: UserEntityProperties) {
         super()
         this.password = properties.password
         this.email = properties.email
-        this.avatar = avatar ? avatar:''
+        this.avatar = properties.avatar ? properties.avatar:''
         this.role_id = properties.role_id
     }
 }

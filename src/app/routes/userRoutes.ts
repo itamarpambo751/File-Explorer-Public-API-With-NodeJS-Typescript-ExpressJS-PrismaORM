@@ -4,9 +4,14 @@ import { createUserController, createUserMiddleware } from "../../server/service
 const userRoutes = Router()
 
 userRoutes.post('/user', 
-createUserMiddleware,
 (request: Request, response: Response) => {
     return createUserController.handle(request, response)
+})
+
+userRoutes.get('/user', (request, response) => {
+    return response.json({
+        message: request.query
+    })
 })
 
 export { userRoutes }

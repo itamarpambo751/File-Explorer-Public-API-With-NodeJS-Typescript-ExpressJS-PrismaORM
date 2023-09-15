@@ -9,6 +9,8 @@ export class CreateUserUseCase
 implements UseCase<AppError> {
     constructor(private readonly userGatewayInterface: UserGatewayInterface) {}
     async perform(user: CreateUserDTO): Promise<any> {
+        console.log(user);
+        
         const mapped = new User(user)
         
         if (await this.userGatewayInterface.getByEmail(mapped.email))
